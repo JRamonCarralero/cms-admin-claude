@@ -24,4 +24,10 @@ export default defineConfig([
       'react-hooks/exhaustive-deps': 'warn',
     },
   },
+  {
+    files: ['src/app/routes.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])
