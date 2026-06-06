@@ -22,6 +22,7 @@ export default defineConfig([
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/consistent-type-imports': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
+      'react-hooks/incompatible-library': 'off',
     },
   },
   {
