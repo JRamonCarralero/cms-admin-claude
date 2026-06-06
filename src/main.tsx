@@ -5,10 +5,19 @@ import { queryClient } from '@/lib/api/queryClient'
 import { App } from './App'
 import './index.css'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  </StrictMode>,
-)
+async function prepare() {
+  if (import.meta.env.VITE_MSW === 'true') {
+    const { worker } = await import('../mocks/browser')
+    return worker.start({ onUnhandledRequest: 'bypass' })
+  }
+}
+
+prepare().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </StrictMode>,
+  )
+})

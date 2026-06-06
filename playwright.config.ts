@@ -13,7 +13,7 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: 'pnpm dev',
+    command: 'pnpm vite --mode e2e',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env['CI'],
   },

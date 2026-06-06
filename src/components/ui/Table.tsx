@@ -1,5 +1,5 @@
-import { Spinner } from './Spinner'
 import { EmptyState } from './EmptyState'
+import { TableSkeleton } from './Skeleton'
 
 export interface ColumnDef<T> {
   key: string
@@ -28,11 +28,7 @@ export function Table<T>({
   caption,
 }: TableProps<T>) {
   if (isLoading) {
-    return (
-      <div className="flex justify-center py-16">
-        <Spinner size="lg" />
-      </div>
-    )
+    return <TableSkeleton rows={5} cols={columns.length} />
   }
 
   if (data.length === 0) {
