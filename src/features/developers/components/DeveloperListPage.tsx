@@ -19,7 +19,11 @@ import type { DeveloperDetailResponse } from '@/types/api'
 import type { ColumnDef } from '@/components/ui/Table'
 import type { CreateDeveloperDTO } from '../types'
 
-export function DeveloperListPage() {
+interface DeveloperListPageProps {
+  embedded?: boolean
+}
+
+export function DeveloperListPage({ embedded }: DeveloperListPageProps) {
   const { eventId = '' } = useParams<{ eventId: string }>()
   const [params, setParams] = useState({ eventId, page: 1, pageSize: 10 })
   const [formOpen, setFormOpen] = useState(false)
@@ -83,24 +87,28 @@ export function DeveloperListPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2 text-sm text-gray-500">
-        <Link to="/events" className="hover:text-gray-900">
-          Eventos
-        </Link>
-        <span>/</span>
-        <span className="text-gray-900">Desarrolladores</span>
-      </div>
+      {!embedded && (
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <Link to="/events" className="hover:text-gray-900">
+            Eventos
+          </Link>
+          <span>/</span>
+          <span className="text-gray-900">Desarrolladores</span>
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-900">Desarrolladores</h1>
-        <Button
-          onClick={() => {
-            setEditTarget(undefined)
-            setFormOpen(true)
-          }}
-        >
-          + Añadir desarrollador
-        </Button>
+        {!embedded && <h1 className="text-xl font-semibold text-gray-900">Desarrolladores</h1>}
+        <div className={embedded ? 'ml-auto' : ''}>
+          <Button
+            onClick={() => {
+              setEditTarget(undefined)
+              setFormOpen(true)
+            }}
+          >
+            + Añadir desarrollador
+          </Button>
+        </div>
       </div>
 
       {isError ? (

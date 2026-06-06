@@ -19,7 +19,11 @@ import type { OrganizerDetailResponse } from '@/types/api'
 import type { ColumnDef } from '@/components/ui/Table'
 import type { CreateOrganizerDTO } from '../types'
 
-export function OrganizerListPage() {
+interface OrganizerListPageProps {
+  embedded?: boolean
+}
+
+export function OrganizerListPage({ embedded }: OrganizerListPageProps) {
   const { eventId = '' } = useParams<{ eventId: string }>()
   const [params, setParams] = useState({ eventId, page: 1, pageSize: 10 })
   const [formOpen, setFormOpen] = useState(false)
@@ -84,24 +88,28 @@ export function OrganizerListPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2 text-sm text-gray-500">
-        <Link to="/events" className="hover:text-gray-900">
-          Eventos
-        </Link>
-        <span>/</span>
-        <span className="text-gray-900">Organizadores</span>
-      </div>
+      {!embedded && (
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <Link to="/events" className="hover:text-gray-900">
+            Eventos
+          </Link>
+          <span>/</span>
+          <span className="text-gray-900">Organizadores</span>
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-900">Organizadores</h1>
-        <Button
-          onClick={() => {
-            setEditTarget(undefined)
-            setFormOpen(true)
-          }}
-        >
-          + Añadir organizador
-        </Button>
+        {!embedded && <h1 className="text-xl font-semibold text-gray-900">Organizadores</h1>}
+        <div className={embedded ? 'ml-auto' : ''}>
+          <Button
+            onClick={() => {
+              setEditTarget(undefined)
+              setFormOpen(true)
+            }}
+          >
+            + Añadir organizador
+          </Button>
+        </div>
       </div>
 
       {isError ? (

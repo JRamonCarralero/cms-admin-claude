@@ -19,7 +19,11 @@ import type { CollaboratorDetailResponse } from '@/types/api'
 import type { ColumnDef } from '@/components/ui/Table'
 import type { CreateCollaboratorDTO } from '../types'
 
-export function CollaboratorListPage() {
+interface CollaboratorListPageProps {
+  embedded?: boolean
+}
+
+export function CollaboratorListPage({ embedded }: CollaboratorListPageProps) {
   const { eventId = '' } = useParams<{ eventId: string }>()
   const [params, setParams] = useState({ eventId, page: 1, pageSize: 10 })
   const [formOpen, setFormOpen] = useState(false)
@@ -93,17 +97,21 @@ export function CollaboratorListPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2 text-sm text-gray-500">
-        <Link to="/events" className="hover:text-gray-900">
-          Eventos
-        </Link>
-        <span>/</span>
-        <span className="text-gray-900">Colaboradores</span>
-      </div>
+      {!embedded && (
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <Link to="/events" className="hover:text-gray-900">
+            Eventos
+          </Link>
+          <span>/</span>
+          <span className="text-gray-900">Colaboradores</span>
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-900">Colaboradores</h1>
-        <Button onClick={openCreate}>+ Añadir colaborador</Button>
+        {!embedded && <h1 className="text-xl font-semibold text-gray-900">Colaboradores</h1>}
+        <div className={embedded ? 'ml-auto' : ''}>
+          <Button onClick={openCreate}>+ Añadir colaborador</Button>
+        </div>
       </div>
 
       {isError ? (

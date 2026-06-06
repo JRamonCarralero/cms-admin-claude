@@ -21,7 +21,11 @@ const TIER_VARIANT: Record<string, 'danger' | 'warning' | 'info' | 'success' | '
   community: 'default',
 }
 
-export function SponsorListPage() {
+interface SponsorListPageProps {
+  embedded?: boolean
+}
+
+export function SponsorListPage({ embedded }: SponsorListPageProps) {
   const { eventId = '' } = useParams<{ eventId: string }>()
   const [params, setParams] = useState({ eventId, page: 1, pageSize: 10 })
   const [formOpen, setFormOpen] = useState(false)
@@ -113,24 +117,28 @@ export function SponsorListPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2 text-sm text-gray-500">
-        <Link to="/events" className="hover:text-gray-900">
-          Eventos
-        </Link>
-        <span>/</span>
-        <span className="text-gray-900">Patrocinadores</span>
-      </div>
+      {!embedded && (
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <Link to="/events" className="hover:text-gray-900">
+            Eventos
+          </Link>
+          <span>/</span>
+          <span className="text-gray-900">Patrocinadores</span>
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-900">Patrocinadores</h1>
-        <Button
-          onClick={() => {
-            setEditTarget(undefined)
-            setFormOpen(true)
-          }}
-        >
-          + Añadir patrocinador
-        </Button>
+        {!embedded && <h1 className="text-xl font-semibold text-gray-900">Patrocinadores</h1>}
+        <div className={embedded ? 'ml-auto' : ''}>
+          <Button
+            onClick={() => {
+              setEditTarget(undefined)
+              setFormOpen(true)
+            }}
+          >
+            + Añadir patrocinador
+          </Button>
+        </div>
       </div>
 
       {isError ? (
