@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Table } from '@/components/ui/Table'
 import { Pagination } from '@/components/ui/Pagination'
 import { Button } from '@/components/ui/Button'
@@ -84,6 +85,12 @@ export function EventListPage() {
       header: '',
       cell: (row) => (
         <div className="flex justify-end gap-2">
+          <Link
+            to={`/events/${row.id}`}
+            className="rounded px-2 py-1 text-xs font-medium text-blue-600 hover:bg-blue-50"
+          >
+            Ver
+          </Link>
           <Button variant="ghost" size="sm" onClick={() => openEdit(row)}>
             Editar
           </Button>
@@ -92,7 +99,7 @@ export function EventListPage() {
           </Button>
         </div>
       ),
-      className: 'w-36',
+      className: 'w-44',
     },
   ]
 

@@ -23,3 +23,7 @@ export function updatePerson(id: string, data: UpdatePersonDTO) {
 export function deletePerson(id: string) {
   return apiClient.delete(`/api/v1/persons/${id}`)
 }
+
+export function getPersonsList() {
+  return apiClient.get<PersonResponse[]>('/api/v1/persons').then((r) => r.data)
+}
